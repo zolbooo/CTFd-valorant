@@ -34,3 +34,7 @@
 .text-center {
 	text-align: center;
 }
+
+.mb-5 {
+	margin-bottom: 1.25rem;
+}
