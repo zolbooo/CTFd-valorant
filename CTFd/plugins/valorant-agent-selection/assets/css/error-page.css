@@ -1,0 +1,22 @@
+@import "common.css";
+
+html, body {
+	height: 100%;
+}
+
+body {
+	background-image: url("/plugins/valorant-agent-selection/assets/images/lobby-background.jpeg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.message {
+	background-color: rgba(0, 0, 0, 0.7);
+	padding: 10em;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+
+.description {
+	color: white;
+}

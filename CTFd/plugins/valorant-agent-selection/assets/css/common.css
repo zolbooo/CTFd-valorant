@@ -1,0 +1,36 @@
+.flex {
+	display: flex;
+}
+.flex-row {
+	display: flex;
+	flex-direction: row;
+}
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+.justify-center {
+	justify-content: center;
+}
+.items-center {
+	align-items: center;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.flex-grow {
+	flex-grow: 1;
+}
+
+.text-error {
+	color: #e15d59;
+}
+.text-white {
+	color: white;
+}
+
+.text-center {
+	text-align: center;
+}
