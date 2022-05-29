@@ -32,5 +32,10 @@
 			<div class="absolute top-0 left-0 w-full h-full agent-overlay"></div>
 		</div>
 	</div>
+	<form action="/agent" method="POST" id="selection" hidden>
+		<input type="text" name="nonce" value="{{ Session.nonce }}" />
+		<input type="text" name="agent" value="" />
+	</form>
+	<script src="/plugins/valorant-agent-selection/assets/js/select-agent.js" defer async></script>
 </body>
 </html>
