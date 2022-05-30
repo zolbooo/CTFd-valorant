@@ -13,9 +13,9 @@
 	<div class="mb-5 flex-row flex-wrap selector">
 		{% for agent in agents %}
 		<div class="relative flex agent-card" data-agent="{{ agent }}">
-			<picture class="w-full h-full">
+			<picture>
 				<source srcset="/plugins/valorant-agent-selection/assets/agents/{{agent}}/icon.webp" type="image/webp">
-				<img src="/plugins/valorant-agent-selection/assets/agents/{{agent}}/icon.png" alt="{{agent}}" />
+				<img class="block w-full h-full" src="/plugins/valorant-agent-selection/assets/agents/{{agent}}/icon.png" alt="{{agent}}" />
 			</picture>
 			<div class="absolute top-0 left-0 w-full h-full agent-overlay"></div>
 		</div>
