@@ -15,7 +15,8 @@
 			<img class="block w-full h-full">
 		</picture>
 	</div>
-	<div class="mb-5 mt-auto flex-row flex-wrap selector">
+	<button id="submit" class="mt-auto mb-5 text-white font-tungsten lock-in" onclick="submit()" disabled>Lock in</button>
+	<div class="mb-5 flex-row flex-wrap selector">
 		{% for agent in agents %}
 		<div class="relative flex agent-card" data-agent="{{ agent }}">
 			<picture>

@@ -1,8 +1,20 @@
 let selectedAgent = null;
+
+const artwork = document.getElementById('artwork');
+const submitButton = document.getElementById('submit');
 function hydrate() {
-	const artwork = document.getElementById('artwork');
+	document.body.addEventListener('click', (e) => {
+		if (e.target !== e.currentTarget) {
+			return;
+		}
+		selectedAgent = null;
+		submitButton.disabled = true;
+		artwork.hidden = true;
+	});
 	const onClick = agent => () => {
 		selectedAgent = agent;
+		submitButton.disabled = false;
+		artwork.hidden = false;
 		artwork.children[0].srcset = `/plugins/valorant-agent-selection/assets/agents/${agent}/artwork.webp`;
 		artwork.children[1].src = `/plugins/valorant-agent-selection/assets/agents/${agent}/artwork.png`;
 	};
