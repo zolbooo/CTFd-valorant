@@ -11,26 +11,15 @@
 <body class="flex-col items-center">
 	<div class="flex flex-grow"></div>
 	<div class="mb-5 flex-row flex-wrap selector">
-		<div class="relative flex agent-card">
-			<img class="w-full h-full" src="/plugins/valorant-agent-selection/assets/agents/killjoy.png" alt="Killjoy" />
+		{% for agent in agents %}
+		<div class="relative flex agent-card" data-agent="{{ agent }}">
+			<picture class="w-full h-full">
+				<source srcset="/plugins/valorant-agent-selection/assets/agents/{{agent}}/icon.webp" type="image/webp">
+				<img src="/plugins/valorant-agent-selection/assets/agents/{{agent}}/icon.png" alt="{{agent}}" />
+			</picture>
 			<div class="absolute top-0 left-0 w-full h-full agent-overlay"></div>
 		</div>
-		<div class="relative flex agent-card">
-			<img class="w-full h-full" src="/plugins/valorant-agent-selection/assets/agents/killjoy.png" alt="Killjoy" />
-			<div class="absolute top-0 left-0 w-full h-full agent-overlay"></div>
-		</div>
-		<div class="relative flex agent-card">
-			<img class="w-full h-full" src="/plugins/valorant-agent-selection/assets/agents/killjoy.png" alt="Killjoy" />
-			<div class="absolute top-0 left-0 w-full h-full agent-overlay"></div>
-		</div>
-		<div class="relative flex agent-card">
-			<img class="w-full h-full" src="/plugins/valorant-agent-selection/assets/agents/killjoy.png" alt="Killjoy" />
-			<div class="absolute top-0 left-0 w-full h-full agent-overlay"></div>
-		</div>
-		<div class="relative flex agent-card">
-			<img class="w-full h-full" src="/plugins/valorant-agent-selection/assets/agents/killjoy.png" alt="Killjoy" />
-			<div class="absolute top-0 left-0 w-full h-full agent-overlay"></div>
-		</div>
+		{% endfor %}
 	</div>
 	<form action="/agent" method="POST" id="selection" hidden>
 		<input type="text" name="nonce" value="{{ Session.nonce }}" />
