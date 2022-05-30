@@ -6,7 +6,7 @@ agent_list = [
   "cypher",
   "fade",
   "jett",
-  "kAYO",
+  "kayo",
   "killjoy",
   "neon",
   "omen",
