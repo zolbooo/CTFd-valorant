@@ -8,9 +8,14 @@
 	<link rel="stylesheet" type="text/css" href="/plugins/valorant-agent-selection/assets/fonts/tungsten.css">
 	<link rel="stylesheet" type="text/css" href="/plugins/valorant-agent-selection/assets/css/agent-page.css">
 </head>
-<body class="flex-col items-center">
-	<div class="flex flex-grow"></div>
-	<div class="mb-5 flex-row flex-wrap selector">
+<body class="w-screen h-screen flex-col items-center">
+	<div class="mb-5 flex justify-center panel">
+		<picture id="artwork">
+			<source type="image/webp">
+			<img class="block w-full h-full">
+		</picture>
+	</div>
+	<div class="mb-5 mt-auto flex-row flex-wrap selector">
 		{% for agent in agents %}
 		<div class="relative flex agent-card" data-agent="{{ agent }}">
 			<picture>
