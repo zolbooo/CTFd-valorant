@@ -39,7 +39,15 @@ def load(app):
 		req = request.form.to_dict()
 		if req['agent'] == "":
 			return render_template('error.html', error="You must select an agent")
-		# TODO: Validate value against list of agents
+		if req['agent'] not in agent_list:
+			return render_template('error.html', error="Wrong agent")
+		if AgentChoice.query.filter_by(agent_name=req['agent']).first() is not None:
+			return render_template('error.html', error="Agent is already picked")
+
+		db.session.add(AgentChoice(agent_name=req['agent'], team_id=user.team_id))
+		db.session.commit()
+
+		# TODO: Send notification to other teams
 		return redirect('/')
 
 	app.register_blueprint(agent_selection)
