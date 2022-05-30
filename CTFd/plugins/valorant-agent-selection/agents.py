@@ -1,0 +1,21 @@
+agent_list = [
+  "Astra",
+  "Breach",
+  "Brimstone",
+  "Chamber",
+  "Cypher",
+  "Fade",
+  "Jett",
+  "KAYO",
+  "Killjoy",
+  "Neon",
+  "Omen",
+  "Phoenix",
+  "Raze",
+  "Reyna",
+  "Sage",
+  "Skye",
+  "Sova",
+  "Viper",
+  "Yoru"
+]

@@ -5,6 +5,7 @@ from CTFd.models import db, Users, Teams
 from CTFd.plugins import register_plugin_assets_directory
 from CTFd.utils.decorators import authed_only, require_team
 
+from .agents import agent_list
 from .models import AgentChoice
 
 agent_selection = Blueprint('agent_selection', __name__, template_folder='templates')
@@ -22,7 +23,7 @@ def load(app):
 			return render_template('error.html', error="You are not the captain of this team")
 		if AgentChoice.query.filter_by(team_id=team.id).first() is not None:
 			return render_template('error.html', error="You have already selected agent")
-		return render_template('agent.html')
+		return render_template('agent.html', agents=agent_list)
 
 	@authed_only
 	@require_team
