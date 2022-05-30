@@ -63,6 +63,9 @@
 	text-align: center;
 }
 
+.mt-auto {
+	margin-top: auto;
+}
 .mb-5 {
 	margin-bottom: 1.25rem;
 }
