@@ -38,9 +38,7 @@ def load(app):
 		return render_template(
 			'agent.html',
 			agents=agent_list,
-			chosen_agents=json.dumps(
-				list(map(lambda choice: choice.agent_name, AgentChoice.query.all())),
-			),
+			chosen_agents=list(map(lambda choice: choice.agent_name, AgentChoice.query.all())),
 		)
 
 	@authed_only
