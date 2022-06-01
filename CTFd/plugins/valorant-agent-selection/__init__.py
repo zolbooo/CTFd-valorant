@@ -5,12 +5,21 @@ from CTFd.models import db, Users, Teams
 from CTFd.plugins import register_plugin_assets_directory
 from CTFd.utils.decorators import authed_only, require_team
 
+from .config import config
 from .agents import agent_list
 from .models import AgentChoice
+from .webhook import ValorantWebhook
 
 agent_selection = Blueprint('agent_selection', __name__, template_folder='templates')
 
 def load(app):
+	config(app)
+	if not app.config['VALORANT_WEBHOOK_URL']:
+		print('[Valorant] Webhook URL not set. Plugin disabled.')
+		return
+
+	webhook = ValorantWebhook(app.config['VALORANT_WEBHOOK_URL'], app.config['VALORANT_WEBHOOK_SECRET'])
+
 	app.db.create_all()
 
 	@authed_only
@@ -48,6 +57,7 @@ def load(app):
 		db.session.commit()
 
 		app.events_manager.publish(data={'agent': req['agent']}, type='agent-selected')
+		webhook.send_payload({'type': 'agent-selected', 'team': team.name, 'agent': req['agent']})
 		return redirect('/')
 
 	app.register_blueprint(agent_selection)
