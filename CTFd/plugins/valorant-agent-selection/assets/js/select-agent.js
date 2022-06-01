@@ -44,6 +44,9 @@ function hydrate() {
 			setSelectedAgent(element.dataset.agent);
 		});
 	});
+
+	const chosenAgents = JSON.parse(document.getElementById('chosen_agents').textContent);
+	chosenAgents.forEach(disableAgent);
 }
 
 const eventSource = new EventSource('/events');
