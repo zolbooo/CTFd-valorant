@@ -12,6 +12,8 @@ from .agents import agent_list
 from .models import AgentChoice
 from .webhook import ValorantWebhook
 
+from .api import load_api
+
 agent_selection = Blueprint('agent_selection', __name__, template_folder='templates')
 
 def load(app):
@@ -23,6 +25,7 @@ def load(app):
 	webhook = ValorantWebhook(app.config['VALORANT_WEBHOOK_URL'], app.config['VALORANT_WEBHOOK_SECRET'])
 
 	app.db.create_all()
+	load_api()
 
 	@authed_only
 	@require_team
