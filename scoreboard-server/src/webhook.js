@@ -1,7 +1,6 @@
 import "dotenv-flow/config.js";
 
 import crypto from "crypto";
-import getRawBody from "raw-body";
 
 import { io } from "./app.js";
 
@@ -11,11 +10,9 @@ if (!WEBHOOK_SECRET) {
 }
 
 export const webhookHandler = async (req, res) => {
-  const rawBody = await getRawBody(req);
-
   const digest = crypto
     .createHmac("sha256", WEBHOOK_SECRET)
-    .update(rawBody)
+    .update(req.body)
     .digest("hex");
 
   if (digest !== req.headers["x-valorant-signature"]) {
@@ -28,7 +25,7 @@ export const webhookHandler = async (req, res) => {
     return;
   }
 
-  const { type, ...payload } = JSON.parse(rawBody.toString("utf-8"));
+  const { type, ...payload } = JSON.parse(req.body.toString("utf-8"));
   io.emit(type, payload);
   res.status(200).send({ success: true });
 };
