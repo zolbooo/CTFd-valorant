@@ -14,4 +14,11 @@ class ValorantWebhook:
 		headers = {'Content-Type': 'application/json'}
 		if self.secret:
 			headers['X-Valorant-Signature'] = hmac(json_data, self.secret, digest=hashlib.sha256)
-		return requests.post(self.url, data=json_data, headers=headers)
+
+		response = requests.post(self.url, data=json_data, headers=headers)
+		if response.status_code != 200:
+			print(f"Error sending payload to {self.url}")
+			print(f"Status code: {response.status_code}")
+			print(f"Response: {response.text}")
+			return False
+		return True
