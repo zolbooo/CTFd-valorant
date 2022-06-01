@@ -18,7 +18,7 @@
 	<button id="submit" class="mt-auto mb-5 text-white font-tungsten lock-in" onclick="submit()" disabled>Lock in</button>
 	<div class="mb-5 flex-row flex-wrap selector">
 		{% for agent in agents %}
-		<div class="relative flex agent-card" data-agent="{{ agent }}">
+		<div class="relative flex cursor-pointer agent-card" data-agent="{{ agent }}">
 			<picture>
 				<source srcset="/plugins/valorant-agent-selection/assets/agents/{{agent}}/icon.webp" type="image/webp">
 				<img class="block w-full h-full" src="/plugins/valorant-agent-selection/assets/agents/{{agent}}/icon.png" alt="{{agent}}" />
