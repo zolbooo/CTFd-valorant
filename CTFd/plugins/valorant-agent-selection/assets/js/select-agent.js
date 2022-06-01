@@ -15,6 +15,16 @@ function getSelectedAgent() {
 	return __selectedAgent;
 }
 
+function disableAgent(agent) {
+	const agentCardOverlay = document.querySelector(`div.agent-card[data-agent="${agent}"] > .agent-overlay`);
+	agentCardOverlay.classList.add('agent-disabled');
+	agentCardOverlay.classList.remove('agent-overlay');
+
+	const agentCard = document.querySelector(`div.agent-card[data-agent="${agent}"]`);
+	agentCard.classList.remove('cursor-pointer');
+	agentCard.dataset.disabled = 'true';
+}
+
 const artwork = document.getElementById('artwork');
 const submitButton = document.getElementById('submit');
 function hydrate() {
@@ -40,14 +50,7 @@ const eventSource = new EventSource('/events');
 eventSource.addEventListener('agent-selected', (message) => {
 	const {agent} = JSON.parse(message.data);
 
-	const agentCardOverlay = document.querySelector(`div.agent-card[data-agent="${agent}"] > .agent-overlay`);
-	agentCardOverlay.classList.add('agent-disabled');
-	agentCardOverlay.classList.remove('agent-overlay');
-
-	const agentCard = document.querySelector(`div.agent-card[data-agent="${agent}"]`);
-	agentCard.classList.remove('cursor-pointer');
-	agentCard.dataset.disabled = 'true';
-
+	disableAgent(agent);
 	if (getSelectedAgent() === agent) {
 		setSelectedAgent(null);
 	}
