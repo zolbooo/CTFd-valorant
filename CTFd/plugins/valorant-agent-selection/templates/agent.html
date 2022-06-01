@@ -31,6 +31,7 @@
 		<input type="text" name="nonce" value="{{ Session.nonce }}" />
 		<input type="text" name="agent" value="" />
 	</form>
+	<script id="chosen_agents" type="application/json">{{ chosen_agents | tojson }}</script>
 	<script src="/plugins/valorant-agent-selection/assets/js/select-agent.js" defer async></script>
 </body>
 </html>
