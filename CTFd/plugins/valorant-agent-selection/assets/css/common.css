@@ -69,3 +69,7 @@
 .mb-5 {
 	margin-bottom: 1.25rem;
 }
+
+.cursor-pointer {
+	cursor: pointer;
+}
