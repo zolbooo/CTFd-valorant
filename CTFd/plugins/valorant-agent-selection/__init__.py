@@ -47,7 +47,7 @@ def load(app):
 		db.session.add(AgentChoice(agent_name=req['agent'], team_id=user.team_id))
 		db.session.commit()
 
-		# TODO: Send notification to other teams
+		app.events_manager.publish(data={'agent': req['agent']}, type='agent-selected')
 		return redirect('/')
 
 	app.register_blueprint(agent_selection)
