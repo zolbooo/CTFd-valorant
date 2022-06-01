@@ -1,3 +1,8 @@
+export type APIResponse<T> = {
+  success: boolean;
+  data: T;
+}
+
 export type PaginatedData<Item> = {
   data: Item[];
   meta: {
