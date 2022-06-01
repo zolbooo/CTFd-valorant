@@ -1,0 +1,21 @@
+{
+  "astra": { "name": "Astra" },
+  "breach": { "name": "Breach" },
+  "brimstone": { "name": "Brimstone" },
+  "chamber": { "name": "Chamber" },
+  "cypher": { "name": "Cypher" },
+  "fade": { "name": "Fade" },
+  "jett": { "name": "Jett" },
+  "kayo": { "name": "KAY/O" },
+  "killjoy": { "name": "Killjoy" },
+  "neon": { "name": "Neon" },
+  "omen": { "name": "Omen" },
+  "phoenix": { "name": "Phoenix" },
+  "raze": { "name": "Raze" },
+  "reyna": { "name": "Reyna" },
+  "sage": { "name": "Sage" },
+  "skye": { "name": "Skye" },
+  "sova": { "name": "Sove" },
+  "viper": { "name": "Viper" },
+  "yoru": { "name": "Yoru" }
+}
