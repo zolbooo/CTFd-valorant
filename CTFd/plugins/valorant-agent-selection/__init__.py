@@ -46,18 +46,24 @@ def load(app):
 			return render_template('error.html', error="You have already selected agent")
 
 		req = request.form.to_dict()
-		if req['agent'] == "":
+		agent = req['agent']
+		if agent == "":
 			return render_template('error.html', error="You must select an agent")
-		if req['agent'] not in agent_list:
+		if agent not in agent_list:
 			return render_template('error.html', error="Wrong agent")
-		if AgentChoice.query.filter_by(agent_name=req['agent']).first() is not None:
+		if AgentChoice.query.filter_by(agent_name=agent).first() is not None:
 			return render_template('error.html', error="Agent is already picked")
 
-		db.session.add(AgentChoice(agent_name=req['agent'], team_id=user.team_id))
-		db.session.commit()
+		if app.env == 'development':
+			team_name = team.name
+			print(f'[Valorant] Agent "{agent}" was selected by team "{team_name}"')
+			print(f'[Valorant] This message shows only in development mode. In production mode, the agent choice will be saved in server.')
+		else:
+			db.session.commit()
+			db.session.add(AgentChoice(agent_name=agent, team_id=user.team_id))
 
-		app.events_manager.publish(data={'agent': req['agent']}, type='agent-selected')
-		webhook.send_payload({'type': 'agent-selected', 'team': team.name, 'agent': req['agent']})
+		app.events_manager.publish(data={'agent': agent}, type='agent-selected')
+		webhook.send_payload({'type': 'agent-selected', 'team': team.name, 'agent': agent})
 		return redirect('/')
 
 	app.register_blueprint(agent_selection)
