@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "classnames": "^2.3.1",
     "next": "12.1.6",
     "raw-body": "^2.5.1",
     "react": "18.1.0",
