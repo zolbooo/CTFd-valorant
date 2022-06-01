@@ -1,5 +1,7 @@
+import json
+
 from flask import render_template, Blueprint
-from flask import request, redirect, jsonify, session
+from flask import request, redirect, session
 
 from CTFd.models import db, Users, Teams
 from CTFd.plugins import register_plugin_assets_directory
@@ -32,7 +34,14 @@ def load(app):
 			return render_template('error.html', error="You are not the captain of this team")
 		if AgentChoice.query.filter_by(team_id=team.id).first() is not None:
 			return render_template('error.html', error="You have already selected agent")
-		return render_template('agent.html', agents=agent_list)
+
+		return render_template(
+			'agent.html',
+			agents=agent_list,
+			chosen_agents=json.dumps(
+				list(map(lambda choice: choice.agent_name, AgentChoice.query.all())),
+			),
+		)
 
 	@authed_only
 	@require_team
