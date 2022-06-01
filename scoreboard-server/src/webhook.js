@@ -3,6 +3,8 @@ import "dotenv-flow/config.js";
 import crypto from "crypto";
 import getRawBody from "raw-body";
 
+import { io } from "./app.js";
+
 const { WEBHOOK_SECRET } = process.env;
 if (!WEBHOOK_SECRET) {
   throw Error("WEBHOOK_SECRET is not defined");
@@ -26,8 +28,7 @@ export const webhookHandler = async (req, res) => {
     return;
   }
 
-  const body = JSON.parse(rawBody.toString("utf-8"));
-  // TODO: Handle incoming event
-  console.log(body);
+  const { type, ...payload } = JSON.parse(rawBody.toString("utf-8"));
+  io.emit(type, payload);
   res.status(200).send({ success: true });
 };
