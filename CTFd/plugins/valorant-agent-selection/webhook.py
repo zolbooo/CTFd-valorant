@@ -1,0 +1,17 @@
+import json
+import hashlib
+import requests
+
+from CTFd.utils.security.signing import hmac
+
+class ValorantWebhook:
+	def __init__(self, url, secret) -> None:
+		self.url = url
+		self.secret = secret
+
+	def send_payload(self, data):
+		json_data = json.dumps(data)
+		headers = {'Content-Type': 'application/json'}
+		if self.secret:
+			headers['X-Valorant-Signature'] = hmac(json_data, self.secret, digest=hashlib.sha256)
+		return requests.post(self.url, data=json_data, headers=headers)
