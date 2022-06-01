@@ -1,13 +1,14 @@
+import "dotenv-flow/config.js";
+
 import crypto from "crypto";
 import getRawBody from "raw-body";
-import { NextApiRequest, NextApiResponse, PageConfig } from "next";
 
 const { WEBHOOK_SECRET } = process.env;
 if (!WEBHOOK_SECRET) {
   throw Error("WEBHOOK_SECRET is not defined");
 }
 
-const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+export const webhookHandler = async (req, res) => {
   const rawBody = await getRawBody(req);
 
   const digest = crypto
@@ -30,11 +31,3 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(body);
   res.status(200).send({ success: true });
 };
-
-export const config: PageConfig = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default webhookHandler;
