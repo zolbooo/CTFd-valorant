@@ -4,6 +4,9 @@ import classNames from "classnames";
 import { Team } from "@/server/teams";
 import { ScoreboardItem } from "@/server/scoreboard";
 
+import agentData from "@/data/agents.json";
+import { useAgentPicks } from "@/hooks/useAgentPicks";
+
 export type ScoreboardInitialData = {
   teams: Team[];
   agentPicks: Record<string, string>;
@@ -11,10 +14,11 @@ export type ScoreboardInitialData = {
 };
 
 export function ScoreboardWidget({
-  initialData: { agentPicks, teams, scoreboard },
+  initialData: { teams, scoreboard, agentPicks: initialAgentPicks },
 }: {
   initialData: ScoreboardInitialData;
 }) {
+  const { agentPicks } = useAgentPicks({ initialAgentPicks });
   return (
     <div className="w-screen h-screen bg-split bg-cover backdrop-blur-xl">
       <div className="w-full h-full bg-white/5 backdrop-blur-sm">
@@ -70,7 +74,11 @@ export function ScoreboardWidget({
                     </div>
                     <p className="px-8 text-white">
                       {agentPicks[team.name]
-                        ? `${team.name} - ${agentPicks[team.name]}`
+                        ? `${team.name} - ${
+                            agentData[
+                              agentPicks[team.name] as keyof typeof agentData
+                            ].name
+                          }`
                         : team.name}
                     </p>
                   </div>
