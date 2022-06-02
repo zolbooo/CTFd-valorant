@@ -11,7 +11,7 @@ export type ScoreboardInitialData = {
 };
 
 export function ScoreboardWidget({
-  initialData: { teams },
+  initialData: { agentPicks, teams, scoreboard },
 }: {
   initialData: ScoreboardInitialData;
 }) {
@@ -34,32 +34,54 @@ export function ScoreboardWidget({
                 <p>DEATHS</p>
               </div>
             </div>
-            {teams.map((team, index) => (
-              <div
-                key={team.name}
-                className={classNames(
-                  "w-full h-16 mt-[2px] bg-opacity-60 grid grid-flow-row-dense grid-cols-5 items-center",
-                  index % 2 === 0 ? "bg-teal-600" : "bg-rose-700"
-                )}
-              >
-                <div className="h-full flex flex-row items-center col-span-2">
-                  <div className="w-16">
-                    <Image
-                      width="100%"
-                      height="100%"
-                      layout="responsive"
-                      objectFit="contain"
-                      className="opacity-100"
-                      src="/assets/agents/astra/icon.png"
-                    />
+            {teams
+              .sort((team1, team2) => {
+                const team1Score =
+                  scoreboard.find((listing) => listing.name === team1.name)
+                    ?.score ?? 0;
+                const team2Score =
+                  scoreboard.find((listing) => listing.name === team2.name)
+                    ?.score ?? 0;
+                return team2Score - team1Score;
+              })
+              .map((team, index) => (
+                <div
+                  key={team.name}
+                  className={classNames(
+                    "w-full h-16 mt-[2px] bg-opacity-60 grid grid-flow-row-dense grid-cols-5 items-center",
+                    index % 2 === 0 ? "bg-teal-600" : "bg-rose-700"
+                  )}
+                >
+                  <div className="h-full flex flex-row items-center col-span-2">
+                    <div className="w-16">
+                      {agentPicks[team.name] && (
+                        <Image
+                          width="100%"
+                          height="100%"
+                          layout="responsive"
+                          objectFit="contain"
+                          className="opacity-100"
+                          src={`/assets/agents/${
+                            agentPicks[team.name]
+                          }/icon.png`}
+                          alt={`${agentPicks[team.name]} icon`}
+                        />
+                      )}
+                    </div>
+                    <p className="px-8 text-white">
+                      {agentPicks[team.name]
+                        ? `${team.name} - ${agentPicks[team.name]}`
+                        : team.name}
+                    </p>
                   </div>
-                  <p className="px-8 text-white">ASTRA</p>
+                  <p className="text-white opacity-100 text-center">
+                    {scoreboard.find((listing) => listing.name === team.name)
+                      ?.score ?? 0}
+                  </p>
+                  <p className="text-white opacity-100 text-center">00</p>
+                  <p className="text-white opacity-100 text-center">00</p>
                 </div>
-                <p className="text-white opacity-100 text-center">234</p>
-                <p className="text-white opacity-100 text-center">00</p>
-                <p className="text-white opacity-100 text-center">00</p>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>
