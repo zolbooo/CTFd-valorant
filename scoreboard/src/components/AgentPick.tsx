@@ -37,7 +37,13 @@ export function AgentPick({
       </div>
       <div className="flex flex-col justify-center text-white">
         <h2 className="text-xl font-bold">{team.name}</h2>
-        <span className={classNames("text-sm", !agent && "tracking-wider")}>
+        <span
+          className={classNames(
+            "text-sm",
+            !agent && "tracking-wider",
+            layout === "rtl" && "text-right"
+          )}
+        >
           {agent ? agents[agent as keyof typeof agents].name : "Picking..."}
         </span>
       </div>
