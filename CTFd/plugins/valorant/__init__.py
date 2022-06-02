@@ -77,4 +77,4 @@ def load(app):
 		return redirect('/')
 
 	app.register_blueprint(agent_selection)
-	register_plugin_assets_directory(app, base_path='/plugins/valorant-agent-selection/assets/')
+	register_plugin_assets_directory(app, base_path='/plugins/valorant/assets/')

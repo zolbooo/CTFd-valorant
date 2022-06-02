@@ -5,7 +5,7 @@ html, body {
 }
 
 body {
-	background-image: url("/plugins/valorant-agent-selection/assets/images/lobby-background.jpeg");
+	background-image: url("/plugins/valorant/assets/images/lobby-background.jpeg");
 	background-size: cover;
 	background-repeat: no-repeat;
 }
