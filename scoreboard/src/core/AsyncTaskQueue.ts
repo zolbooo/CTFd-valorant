@@ -18,8 +18,8 @@ export class AsyncTaskQueue {
   }
 
   push(task: () => Promise<void>): Promise<void> {
-    return new Promise((resolve) => {
-      this.tasks.push(() => task().then(resolve));
+    return new Promise((resolve, reject) => {
+      this.tasks.push(() => task().then(resolve).catch(reject));
       this.processQueue();
     });
   }
