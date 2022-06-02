@@ -4,8 +4,8 @@ function setSelectedAgent(agent) {
 	if (agent !== null) {
 		submitButton.disabled = false;
 		artwork.hidden = false;
-		artwork.children[0].srcset = `/plugins/valorant-agent-selection/assets/agents/${agent}/artwork.webp`;
-		artwork.children[1].src = `/plugins/valorant-agent-selection/assets/agents/${agent}/artwork.png`;
+		artwork.children[0].srcset = `/plugins/valorant/assets/agents/${agent}/artwork.webp`;
+		artwork.children[1].src = `/plugins/valorant/assets/agents/${agent}/artwork.png`;
 	} else {
 		submitButton.disabled = true;
 		artwork.hidden = true;
