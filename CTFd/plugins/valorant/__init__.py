@@ -1,10 +1,13 @@
-import json
+from functools import wraps
 
 from flask import render_template, Blueprint
 from flask import request, redirect, session
+from werkzeug.wrappers.json import JSONMixin
 
-from CTFd.models import db, Users, Teams
+from CTFd.models import db, Users, Teams, Challenges, Solves
 from CTFd.plugins import register_plugin_assets_directory
+from CTFd.utils.user import get_current_team, get_current_user
+from CTFd.utils.dates import ctftime
 from CTFd.utils.decorators import authed_only, require_team
 
 from .config import config
@@ -78,3 +81,28 @@ def load(app):
 
 	app.register_blueprint(agent_selection)
 	register_plugin_assets_directory(app, base_path='/plugins/valorant/assets/')
+
+	def challenge_attempt_decorator(f):
+		@wraps(f)
+		def wrapper(*args, **kwargs):
+			result = f(*args, **kwargs)
+
+			if not ctftime():
+				return result
+			if isinstance(result, JSONMixin):
+				data = result.json
+
+			success = False
+			if isinstance(data, dict) and data.get("success") == True and isinstance(data.get("data"), dict):
+				success = data.get("data").get("status") == "correct"
+			team = get_current_team()
+
+			webhook.send_payload({
+				'type': 'submission',
+				'success': success,
+				'team': {'id': team.id, 'name': team.name}
+			})
+			return result
+		return wrapper
+
+	app.view_functions['api.challenges_challenge_attempt'] = challenge_attempt_decorator(app.view_functions['api.challenges_challenge_attempt'])
