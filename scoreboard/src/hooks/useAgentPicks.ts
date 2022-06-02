@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 
 import { io } from "socket.io-client";
 
-import { SoundDispatcher } from "@/core/SoundDispatcher";
+import { playSound } from "@/core/SoundDispatcher";
+
+import { useTaskQueue } from "@/contexts/TaskQueueContext";
 
 export function useAgentPicks({
   initialAgentPicks,
@@ -10,18 +12,20 @@ export function useAgentPicks({
   initialAgentPicks: Record<string, string>;
 }) {
   const [agentPicks, setAgentPicks] = useState(initialAgentPicks);
-  useEffect(() => {
-    const soundDispatcher = new SoundDispatcher();
 
+  const taskQueue = useTaskQueue();
+  useEffect(() => {
     const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL as string);
     socket.on("agent-selected", async (data) => {
-      await soundDispatcher.playSound(`${data.agent}/pick`);
-      setAgentPicks((picks) => ({ ...picks, [data.team]: data.agent }));
+      taskQueue.push(async () => {
+        setAgentPicks((picks) => ({ ...picks, [data.team]: data.agent }));
+      });
+      taskQueue.push(() => playSound(`${data.agent}/pick`));
     });
-
     return () => {
       socket.close();
     };
-  }, []);
+  }, [taskQueue]);
+
   return { agentPicks };
 }
