@@ -1,7 +1,5 @@
 import { GetServerSideProps } from "next";
 
-import "@/core/SoundDispatcher";
-
 import { fetchTeams } from "@/server/teams";
 import { fetchCTFStatus } from "@/server/status";
 import { fetchAgentPicks } from "@/server/picks";
@@ -23,12 +21,12 @@ type HomePageInitialData =
 export const getServerSideProps: GetServerSideProps<
   HomePageInitialData
 > = async () => {
-  const [{ started }, teams, agentPicks] = await Promise.all([
+  const [{ started }, agentPicks] = await Promise.all([
     fetchCTFStatus(),
-    fetchTeams(),
     fetchAgentPicks(),
   ]);
   if (!started) {
+    const teams = await fetchTeams();
     return {
       props: {
         started: false,
@@ -45,7 +43,6 @@ export const getServerSideProps: GetServerSideProps<
     props: {
       started: true,
       initialData: {
-        teams,
         scoreboard,
         agentPicks,
       },
