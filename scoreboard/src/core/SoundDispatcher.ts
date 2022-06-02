@@ -7,8 +7,9 @@ export class SoundDispatcher {
     const audio = new Audio(`/assets/sounds/${id}.mp3`);
     return this.asyncTaskQueue.push(
       () =>
-        new Promise((resolve) => {
+        new Promise((resolve, reject) => {
           audio.onended = resolve as () => void;
+          audio.onerror = reject;
           audio.play();
         })
     );
