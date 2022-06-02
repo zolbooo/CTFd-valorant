@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource
 
 from CTFd.api import CTFd_API_v1
+from CTFd.models import Teams
 from CTFd.utils.dates import ctf_started, ctf_ended
 
 from .models import AgentChoice
@@ -29,6 +30,45 @@ class CTFStatus(Resource):
 	)
 	def get(self):
 		return {"success": True, "data": {"started": ctf_started(), "ended": ctf_ended()}}
+
+@valorant_namespace.route("/standings")
+class Standings(Resource):
+	@valorant_namespace.doc(
+		description="Get the current standings",
+		responses={
+			200: "Success",
+		},
+	)
+	def get(self):
+		teams = Teams.query\
+			.filter(Teams.banned == False, Teams.hidden == False)\
+			.all()
+		result = [None] * len(teams)
+
+		teams_with_score = list(filter(lambda team: team.score > 0, teams))
+		teams_without_score = list(
+			sorted(
+				filter(lambda team: team.score == 0, teams),
+				key=lambda team: team.id
+			)
+		)
+		for team in teams_with_score:
+			result[team.get_place(numeric=True) - 1] = {
+				'id': team.id,
+				'name': team.name,
+				'score': team.score,
+				'solves': len(team.solves),
+				'fails': len(team.fails)
+			}
+		for i in range(len(teams_without_score)):
+			result[i + len(teams_with_score)] = {
+				'id': teams_without_score[i].id,
+				'name': teams_without_score[i].name,
+				'score': teams_without_score[i].score,
+				'solves': len(teams_without_score[i].solves),
+				'fails': len(teams_without_score[i].fails)
+			}
+		return {"success": True, "data": result}
 
 def load_api():
 	CTFd_API_v1.add_namespace(valorant_namespace)
