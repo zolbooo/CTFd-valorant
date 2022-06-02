@@ -5,6 +5,7 @@ import { ScoreboardItem } from "@/server/scoreboard";
 
 import agentData from "@/data/agents.json";
 import { useAgentPicks } from "@/hooks/useAgentPicks";
+import { useScoreboard } from "@/hooks/useScoreboard";
 
 export type ScoreboardInitialData = {
   agentPicks: Record<string, string>;
@@ -12,11 +13,15 @@ export type ScoreboardInitialData = {
 };
 
 export function ScoreboardWidget({
-  initialData: { scoreboard, agentPicks: initialAgentPicks },
+  initialData: { scoreboard: initialScoreboard, agentPicks: initialAgentPicks },
 }: {
   initialData: ScoreboardInitialData;
 }) {
   const { agentPicks } = useAgentPicks({ initialAgentPicks });
+  const { scoreboard } = useScoreboard({
+    agentPicks,
+    initialScoreboard,
+  });
   return (
     <div className="w-screen h-screen bg-split bg-cover backdrop-blur-xl">
       <div className="w-full h-full bg-white/5 backdrop-blur-sm">
