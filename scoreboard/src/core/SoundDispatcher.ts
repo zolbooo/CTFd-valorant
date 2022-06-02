@@ -8,3 +8,8 @@ export class SoundDispatcher {
     return this.asyncTaskQueue.push(() => audio.play());
   }
 }
+
+export function playSound(id: string) {
+  const audio = new Audio(`/assets/sounds/${id}.mp3`);
+  return audio.play();
+}
