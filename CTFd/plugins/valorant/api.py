@@ -2,6 +2,7 @@ from flask_restx import Namespace, Resource
 
 from CTFd.api import CTFd_API_v1
 from CTFd.models import Teams
+from CTFd.utils import get_config
 from CTFd.utils.dates import ctf_started, ctf_ended
 
 from .models import AgentChoice
@@ -39,7 +40,15 @@ class CTFStatus(Resource):
 		},
 	)
 	def get(self):
-		return {"success": True, "data": {"started": ctf_started(), "ended": ctf_ended()}}
+		return {
+			"success": True,
+			"data": {
+				"started": ctf_started(),
+				"ended": ctf_ended(),
+				"startAt": get_config("start"),
+				"endAt": get_config("end"),
+			}
+		}
 
 @valorant_namespace.route("/standings")
 class Standings(Resource):
