@@ -54,6 +54,8 @@ services:
       - 443:443
     depends_on:
       - ctfd
+      - scoreboard
+      - scoreboard-server
 
   db:
     image: mariadb:10.4.12
