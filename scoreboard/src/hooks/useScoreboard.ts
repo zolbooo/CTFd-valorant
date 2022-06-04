@@ -80,7 +80,8 @@ export function useScoreboard({
           newScoreboard,
         });
         taskQueue.push(async () => {
-          await playSound("kill");
+          // Catch rejection here so state is still updated.
+          await playSound("kill").catch(() => {});
           setScoreboard(newScoreboard);
           await playSound(sound.id);
         });
