@@ -44,8 +44,8 @@ export async function getSoundManifest(): Promise<SoundsManifest> {
       agents.map(async (agentId) => {
         const agentSoundsPath = path.join(soundsPath, agentId);
         const [flagSounds, interactionSounds, leadSounds] = await Promise.all([
-          fs.promises.readdir(path.join(agentSoundsPath, "flags")),
-          fs.promises.readdir(path.join(agentSoundsPath, "interactions")),
+          fs.promises.readdir(path.join(agentSoundsPath, "flag")),
+          fs.promises.readdir(path.join(agentSoundsPath, "interaction")),
           fs.promises.readdir(path.join(agentSoundsPath, "lead")),
         ]);
 
