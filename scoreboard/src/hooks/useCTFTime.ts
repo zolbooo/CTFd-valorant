@@ -13,7 +13,7 @@ export function useCTFTime({ startAt }: { startAt: number }) {
     if (timeUntilStart > 0) {
       const timeout = setTimeout(() => {
         router.reload();
-      }, timeUntilStart);
+      }, timeUntilStart * 1000);
       return () => clearTimeout(timeout);
     }
   }, [router, startAt]);
