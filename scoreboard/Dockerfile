@@ -38,6 +38,7 @@ ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+RUN apk add --no-cache zlib zlib-dev autoconf automake bash g++ libc6-compat libjpeg-turbo-dev libpng-dev make nasm libtool
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 COPY --from=builder /app/next.config.js ./
