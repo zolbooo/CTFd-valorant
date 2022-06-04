@@ -61,9 +61,11 @@ export function useScoreboard({
           oldScoreboard: scoreboardRef.current,
           newScoreboard,
         });
-        taskQueue.push(() => playSound("kill"));
-        taskQueue.push(async () => setScoreboard(newScoreboard));
-        taskQueue.push(() => playSound(sound.id));
+        taskQueue.push(async () => {
+          await playSound("kill");
+          setScoreboard(newScoreboard);
+          await playSound(sound.id);
+        });
       }
     );
     return () => {
