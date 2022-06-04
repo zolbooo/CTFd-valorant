@@ -27,7 +27,7 @@ export type SoundsManifest = Record<
       regular: number;
       special: number;
     };
-    interaction: Record<
+    interactions: Record<
       keyof typeof agentData,
       {
         regular: number;
