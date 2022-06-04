@@ -18,6 +18,6 @@ export async function fetchAgentPicks(): Promise<Record<string, string>> {
     }
   ).then((res) => res.json());
   return Object.fromEntries(
-    result.data.map(({ team_name, agent_name }) => [team_name, agent_name])
+    result.data?.map(({ team_name, agent_name }) => [team_name, agent_name]) ?? []
   );
 }
