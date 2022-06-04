@@ -18,7 +18,17 @@ class AgentPickList(Resource):
 	)
 	def get(self):
 		choices = AgentChoice.query.all()
-		return {"success": True, "data": choices}
+		return {
+			"success": True,
+			"data": list(
+				map(lambda choice: {
+					'id': choice.id,
+					'agent_name': choice.agent_name,
+					'team_id': choice.team_id,
+					'team_name': choice.team_name,
+				}, choices)
+			)
+		}
 
 @valorant_namespace.route("/ctf-status")
 class CTFStatus(Resource):
