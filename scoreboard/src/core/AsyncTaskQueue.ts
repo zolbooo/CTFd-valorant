@@ -17,7 +17,7 @@ export class AsyncTaskQueue {
     });
   }
 
-  push(task: () => Promise<void>): Promise<void> {
+  push<R>(task: () => Promise<R>): Promise<R> {
     return new Promise((resolve, reject) => {
       this.tasks.push(() => task().then(resolve).catch(reject));
       this.processQueue();
