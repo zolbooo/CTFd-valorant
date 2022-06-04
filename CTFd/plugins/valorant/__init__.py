@@ -72,8 +72,8 @@ def load(app):
 			print(f'[Valorant] Agent "{agent}" was selected by team "{team_name}"')
 			print(f'[Valorant] This message shows only in development mode. In production mode, the agent choice will be saved in server.')
 		else:
-			db.session.commit()
 			db.session.add(AgentChoice(agent_name=agent, team_id=user.team_id, team_name=team.name))
+			db.session.commit()
 
 		app.events_manager.publish(data={'agent': agent}, type='agent-selected')
 		webhook.send_payload({'type': 'agent-selected', 'team': team.name, 'agent': agent})
