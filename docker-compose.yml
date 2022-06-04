@@ -7,7 +7,8 @@ services:
       # - "WEBHOOK_SECRET="
     restart: always
     networks:
-        internal:
+      default:
+      internal:
   ctfd:
     build: .
     user: root
