@@ -3,13 +3,19 @@ import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
 import { ScoreboardItem } from "@/server/scoreboard";
+import { SoundsManifest } from "@/server/sounds";
 
 import { useTaskQueue } from "@/contexts/TaskQueueContext";
 
+import { pickSound } from "@/core/sounds";
+import { playSound } from "@/core/SoundDispatcher";
+
 export function useScoreboard({
+  sounds,
   agentPicks,
   initialScoreboard,
 }: {
+  sounds: SoundsManifest;
   agentPicks: Record<string, string>;
   initialScoreboard: ScoreboardItem[];
 }) {
@@ -48,15 +54,22 @@ export function useScoreboard({
         const newScoreboard: ScoreboardItem[] = await fetch(
           "/api/scoreboard"
         ).then((res) => res.json());
-        // TODO: Play sound
-        // * Use scoreboardRef and agentPicksRef to get the latest scoreboard and agentPicks
-        setScoreboard(newScoreboard);
+        const sound = pickSound({
+          team: submission.team.name,
+          agentPicks: agentPicksRef.current,
+          soundManifest: sounds,
+          oldScoreboard: scoreboardRef.current,
+          newScoreboard,
+        });
+        taskQueue.push(() => playSound("kill"));
+        taskQueue.push(() => playSound(sound.id));
+        taskQueue.push(async () => setScoreboard(newScoreboard));
       }
     );
     return () => {
       socket.close();
     };
-  }, [taskQueue]);
+  }, [sounds, taskQueue]);
 
   return { scoreboard };
 }

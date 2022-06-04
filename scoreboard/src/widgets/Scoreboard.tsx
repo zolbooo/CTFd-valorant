@@ -2,11 +2,11 @@ import Image from "next/image";
 import classNames from "classnames";
 
 import { ScoreboardItem } from "@/server/scoreboard";
+import { SoundsManifest } from "@/server/sounds";
 
 import agentData from "@/data/agents.json";
 import { useAgentPicks } from "@/hooks/useAgentPicks";
 import { useScoreboard } from "@/hooks/useScoreboard";
-import { SoundsManifest } from "@/server/sounds";
 
 export type ScoreboardInitialData = {
   agentPicks: Record<string, string>;
@@ -15,12 +15,17 @@ export type ScoreboardInitialData = {
 };
 
 export function ScoreboardWidget({
-  initialData: { scoreboard: initialScoreboard, agentPicks: initialAgentPicks },
+  initialData: {
+    sounds,
+    scoreboard: initialScoreboard,
+    agentPicks: initialAgentPicks,
+  },
 }: {
   initialData: ScoreboardInitialData;
 }) {
   const { agentPicks } = useAgentPicks({ initialAgentPicks });
   const { scoreboard } = useScoreboard({
+    sounds,
     agentPicks,
     initialScoreboard,
   });
