@@ -5,11 +5,16 @@ import { fetchCTFStatus } from "@/server/status";
 import { fetchAgentPicks } from "@/server/picks";
 import { fetchScoreboard } from "@/server/scoreboard";
 
+import { useCTFTime } from "@/hooks/useCTFTime";
+
+import { getSoundManifest } from "@/server/sounds";
 import { PickStageInitialData, PickStageWidget } from "@/widgets/PickStage";
 import { ScoreboardInitialData, ScoreboardWidget } from "@/widgets/Scoreboard";
-import { getSoundManifest } from "@/server/sounds";
 
-type HomePageInitialData =
+type HomePageInitialData = {
+  startAt: number;
+  endAt: number;
+} & (
   | {
       started: false;
       initialData: PickStageInitialData;
@@ -17,12 +22,13 @@ type HomePageInitialData =
   | {
       started: true;
       initialData: ScoreboardInitialData;
-    };
+    }
+);
 
 export const getServerSideProps: GetServerSideProps<
   HomePageInitialData
 > = async () => {
-  const [{ started }, agentPicks] = await Promise.all([
+  const [{ started, startAt, endAt }, agentPicks] = await Promise.all([
     fetchCTFStatus(),
     fetchAgentPicks(),
   ]);
@@ -30,6 +36,8 @@ export const getServerSideProps: GetServerSideProps<
     const teams = await fetchTeams();
     return {
       props: {
+        startAt,
+        endAt,
         started: false,
         initialData: {
           teams,
@@ -45,6 +53,8 @@ export const getServerSideProps: GetServerSideProps<
   ]);
   return {
     props: {
+      startAt,
+      endAt,
       started: true,
       initialData: {
         sounds,
@@ -55,7 +65,8 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-function HomePage({ started, initialData }: HomePageInitialData) {
+function HomePage({ started, startAt, initialData }: HomePageInitialData) {
+  useCTFTime({ startAt });
   if (!started) {
     return <PickStageWidget initialData={initialData} />;
   }
