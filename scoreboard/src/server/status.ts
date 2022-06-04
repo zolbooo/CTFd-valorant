@@ -3,6 +3,8 @@ import { APIResponse } from "./types";
 export type CTFStatus = {
   started: boolean;
   ended: boolean;
+  startAt: number;
+  endAt: number;
 };
 
 export async function fetchCTFStatus() {
