@@ -68,14 +68,14 @@ export function pickSound({
   // Can pick an interaction?
   const isInteractionAvailable =
     prevTeamAgent &&
-    (soundManifest[agent].interaction[prevTeamAgent].regular > 0 ||
-      soundManifest[agent].interaction[prevTeamAgent].special > 0);
+    (soundManifest[agent].interactions[prevTeamAgent].regular > 0 ||
+      soundManifest[agent].interactions[prevTeamAgent].special > 0);
   if (isInteractionAvailable) {
     // Choose between interaction and flag sound
     const shouldUseInteraction = Math.random() < 0.5;
     if (shouldUseInteraction) {
       const sound = pickSoundFromManifest(
-        soundManifest[agent].interaction[prevTeamAgent]
+        soundManifest[agent].interactions[prevTeamAgent]
       );
       return {
         id: `${agent}/interaction/${prevTeamAgent}-${sound.id}`,
