@@ -14,13 +14,15 @@ function pickSoundFromManifest(manifest: {
 } {
   const totalSounds = manifest.regular + manifest.special;
   const randomIndex = Math.floor(Math.random() * totalSounds);
-  if (randomIndex > manifest.regular) {
-    return {
-      id: `${randomIndex - manifest.regular + 1}.special`,
-      special: true,
-    };
+  // When the random index is less than the number of regular sounds,
+  // we pick a random regular sound.
+  if (randomIndex < manifest.regular) {
+    return { id: `${randomIndex + 1}`, special: false };
   }
-  return { id: `${randomIndex + 1}`, special: false };
+  return {
+    id: `${randomIndex - manifest.regular + 1}.special`,
+    special: true,
+  };
 }
 
 export function pickSound({
