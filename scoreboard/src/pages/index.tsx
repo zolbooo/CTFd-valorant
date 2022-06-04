@@ -65,12 +65,17 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-function HomePage({ started, startAt, initialData }: HomePageInitialData) {
+function HomePage({
+  started,
+  startAt,
+  endAt,
+  initialData,
+}: HomePageInitialData) {
   useCTFTime({ startAt });
   if (!started) {
     return <PickStageWidget initialData={initialData} />;
   }
-  return <ScoreboardWidget initialData={initialData} />;
+  return <ScoreboardWidget initialData={initialData} endAt={endAt} />;
 }
 
 export default HomePage;

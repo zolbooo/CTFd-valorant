@@ -15,16 +15,19 @@ export type ScoreboardInitialData = {
 };
 
 export function ScoreboardWidget({
+  endAt,
   initialData: {
     sounds,
     scoreboard: initialScoreboard,
     agentPicks: initialAgentPicks,
   },
 }: {
+  endAt: number;
   initialData: ScoreboardInitialData;
 }) {
   const { agentPicks } = useAgentPicks({ initialAgentPicks });
   const { scoreboard } = useScoreboard({
+    endAt,
     sounds,
     agentPicks,
     initialScoreboard,
