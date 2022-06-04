@@ -1,6 +1,13 @@
 version: '2'
 
 services:
+  scoreboard-server:
+    build: ./scoreboard-server
+    # environment:
+      # - "WEBHOOK_SECRET="
+    restart: always
+    networks:
+        internal:
   ctfd:
     build: .
     user: root
@@ -16,6 +23,8 @@ services:
       - ACCESS_LOG=-
       - ERROR_LOG=-
       - REVERSE_PROXY=true
+      - VALORANT_WEBHOOK_URL=http://scoreboard-server:3000/api/webhook
+      # - VALORANT_WEBHOOK_SECRET=
     volumes:
       - .data/CTFd/logs:/var/log/CTFd
       - .data/CTFd/uploads:/var/uploads
@@ -25,7 +34,16 @@ services:
     networks:
         default:
         internal:
-
+  scoreboard:
+    build: ./scoreboard
+    restart: always
+    environment:
+      - CTFD_API_URL=http://ctfd:8000/api/v1
+      # - CTFD_API_KEY=
+      # - NEXT_PUBLIC_BACKEND_URL=
+    networks:
+        default:
+        internal:
   nginx:
     image: nginx:stable
     restart: always
@@ -58,7 +76,6 @@ services:
     - .data/redis:/data
     networks:
         internal:
-
 networks:
     default:
     internal:
