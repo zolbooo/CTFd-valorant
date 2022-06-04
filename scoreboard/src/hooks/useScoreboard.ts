@@ -62,8 +62,8 @@ export function useScoreboard({
           newScoreboard,
         });
         taskQueue.push(() => playSound("kill"));
-        taskQueue.push(() => playSound(sound.id));
         taskQueue.push(async () => setScoreboard(newScoreboard));
+        taskQueue.push(() => playSound(sound.id));
       }
     );
     return () => {
