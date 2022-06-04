@@ -34,9 +34,9 @@ def load(app):
 	@require_team
 	@agent_selection.route('/agent', methods=['GET'])
 	def view_agent_page():
-		user = Users.query.filter(Users.id == session['id']).one()
-		team = db.session.query(Teams).filter_by(id=user.team_id).one()
-		if team.captain_id != session['id']:
+		user = get_current_user()
+		team = get_current_team()
+		if team.captain_id != user.id:
 			return render_template('error.html', error="You are not the captain of this team")
 		if AgentChoice.query.filter_by(team_id=team.id).first() is not None:
 			return render_template('error.html', error="You have already selected agent")
@@ -51,9 +51,9 @@ def load(app):
 	@require_team
 	@agent_selection.route('/agent', methods=['POST'])
 	def select_agent():
-		user = Users.query.filter(Users.id == session['id']).one()
-		team = db.session.query(Teams).filter_by(id=user.team_id).one()
-		if team.captain_id != session['id']:
+		user = get_current_user()
+		team = get_current_team()
+		if team.captain_id != user.id:
 			return render_template('error.html', error="You are not the captain of this team")
 		if AgentChoice.query.filter_by(team_id=team.id).first() is not None:
 			return render_template('error.html', error="You have already selected agent")
