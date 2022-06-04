@@ -7,6 +7,7 @@ import { fetchScoreboard } from "@/server/scoreboard";
 
 import { PickStageInitialData, PickStageWidget } from "@/widgets/PickStage";
 import { ScoreboardInitialData, ScoreboardWidget } from "@/widgets/Scoreboard";
+import { getSoundManifest } from "@/server/sounds";
 
 type HomePageInitialData =
   | {
@@ -38,11 +39,15 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const scoreboard = await fetchScoreboard();
+  const [sounds, scoreboard] = await Promise.all([
+    getSoundManifest(),
+    fetchScoreboard(),
+  ]);
   return {
     props: {
       started: true,
       initialData: {
+        sounds,
         scoreboard,
         agentPicks,
       },

@@ -6,10 +6,12 @@ import { ScoreboardItem } from "@/server/scoreboard";
 import agentData from "@/data/agents.json";
 import { useAgentPicks } from "@/hooks/useAgentPicks";
 import { useScoreboard } from "@/hooks/useScoreboard";
+import { SoundsManifest } from "@/server/sounds";
 
 export type ScoreboardInitialData = {
   agentPicks: Record<string, string>;
   scoreboard: ScoreboardItem[];
+  sounds: SoundsManifest;
 };
 
 export function ScoreboardWidget({
