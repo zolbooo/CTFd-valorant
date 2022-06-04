@@ -13,14 +13,15 @@ function pickSoundFromManifest(manifest: {
   special: boolean;
 } {
   const totalSounds = manifest.regular + manifest.special;
+  // Math.random() does not return 1, so it's impossible to get totalSounds value as result
   const randomIndex = Math.floor(Math.random() * totalSounds);
   if (randomIndex > manifest.regular) {
     return {
-      id: `${randomIndex - manifest.regular + 1}.special`,
+      id: `${randomIndex - manifest.regular}.special`,
       special: true,
     };
   }
-  return { id: `${randomIndex + 1}`, special: false };
+  return { id: `${randomIndex}`, special: false };
 }
 
 export function pickSound({
