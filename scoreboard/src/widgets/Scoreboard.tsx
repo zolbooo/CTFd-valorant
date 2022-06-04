@@ -33,7 +33,7 @@ export function ScoreboardWidget({
     initialScoreboard,
   });
   return (
-    <div className="w-screen h-screen bg-split bg-cover backdrop-blur-xl">
+    <div className="w-screen h-screen bg-icebox bg-cover backdrop-blur-xl">
       <div className="w-full h-full bg-white/5 backdrop-blur-sm">
         <div className="w-full h-full flex justify-center items-center">
           <div className="w-3/4">
@@ -41,13 +41,13 @@ export function ScoreboardWidget({
               <div className="h-full col-span-2 text-white bg-gray-100 bg-opacity-20 flex justify-center items-center">
                 <p>TEAMS</p>
               </div>
-              <div className="h-full text-white bg-gray-100 bg-opacity-20 flex justify-center items-center ml-[2px]">
+              <div className="h-full text-white bg-gray-100 bg-opacity-20  flex justify-center items-center ml-[2px]">
                 <p>COMBAT SCORE</p>
               </div>
-              <div className="h-full text-white bg-gray-100 bg-opacity-20 flex justify-center items-center mx-[2px]">
+              <div className="h-full text-white bg-gray-100 bg-opacity-20  flex justify-center items-center mx-[2px]">
                 <p>KILLS</p>
               </div>
-              <div className="h-full text-white bg-gray-100 bg-opacity-20 flex justify-center items-center">
+              <div className="h-full text-white bg-gray-100 bg-opacity-20  flex justify-center items-center">
                 <p>DEATHS</p>
               </div>
             </div>
@@ -56,7 +56,7 @@ export function ScoreboardWidget({
                 key={team.name}
                 className={classNames(
                   "w-full h-16 mt-[2px] bg-opacity-60 grid grid-flow-row-dense grid-cols-5 items-center",
-                  index % 2 === 0 ? "bg-teal-600" : "bg-rose-700"
+                  index % 2 === 0 ? "bg-cyan-300" : "bg-rose-500"
                 )}
               >
                 <div className="h-full flex flex-row items-center col-span-2">
@@ -73,7 +73,7 @@ export function ScoreboardWidget({
                       />
                     )}
                   </div>
-                  <p className="px-8 text-white">
+                  <p className="px-8 text-white font-bold">
                     {agentPicks[team.name]
                       ? `${team.name} - ${
                           agentData[
@@ -83,14 +83,14 @@ export function ScoreboardWidget({
                       : team.name}
                   </p>
                 </div>
-                <p className="text-white opacity-100 text-center">
+                <p className="text-white opacity-100 text-center font-bold">
                   {scoreboard.find((listing) => listing.name === team.name)
                     ?.score ?? 0}
                 </p>
-                <p className="text-white opacity-100 text-center">
+                <p className="text-white opacity-100 text-center font-bold">
                   {team.solves.toString().padStart(2, "0")}
                 </p>
-                <p className="text-white opacity-100 text-center">
+                <p className="text-white opacity-100 text-center font-bold">
                   {team.fails.toString().padStart(2, "0")}
                 </p>
               </div>
