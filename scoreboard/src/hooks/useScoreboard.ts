@@ -11,10 +11,12 @@ import { pickSound } from "@/core/sounds";
 import { playSound } from "@/core/SoundDispatcher";
 
 export function useScoreboard({
+  endAt,
   sounds,
   agentPicks,
   initialScoreboard,
 }: {
+  endAt: number;
   sounds: SoundsManifest;
   agentPicks: Record<string, string>;
   initialScoreboard: ScoreboardItem[];
@@ -29,6 +31,22 @@ export function useScoreboard({
   useEffect(() => {
     agentPicksRef.current = agentPicks;
   }, [agentPicks]);
+
+  useEffect(() => {
+    const now = Date.now() / 1000;
+    const timeUntilEnd = endAt - now;
+    if (timeUntilEnd <= 0) {
+      return;
+    }
+
+    const timeout = setTimeout(async () => {
+      const newScoreboard: ScoreboardItem[] = await fetch(
+        "/api/scoreboard"
+      ).then((res) => res.json());
+      await playSound(`${agentPicksRef.current[newScoreboard[0].name]}/win`);
+    }, timeUntilEnd * 1000);
+    return () => clearTimeout(timeout);
+  }, [endAt]);
 
   const taskQueue = useTaskQueue();
   useEffect(() => {
