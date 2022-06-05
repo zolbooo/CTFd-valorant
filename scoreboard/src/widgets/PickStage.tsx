@@ -19,7 +19,7 @@ export function PickStageWidget({
       <div className="w-full h-full bg-white/5 backdrop-blur-sm">
         <div className="p-5 h-full flex flex-row justify-between items-center">
           <div className="flex flex-col flex-1 gap-2">
-            {teams.slice(0, 5).map((team) => (
+            {teams.slice(0, 4).map((team) => (
               <AgentPick
                 key={team.name}
                 team={team}
@@ -28,7 +28,7 @@ export function PickStageWidget({
             ))}
           </div>
           <div className="flex flex-col flex-1 gap-2">
-            {teams.slice(5).map((team) => (
+            {teams.slice(4).map((team) => (
               <AgentPick
                 layout="rtl"
                 key={team.name}
