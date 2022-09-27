@@ -64,7 +64,7 @@ def load(app):
 			return render_template('error.html', error="You must select an agent")
 		if agent not in agent_list:
 			return render_template('error.html', error="Wrong agent")
-		if AgentChoice.query.filter_by(agent_name=agent).first() is not None:
+		if AgentChoice.query.filter_by(agent_name=agent).count() >= 2:
 			return render_template('error.html', error="Agent is already picked")
 
 		if app.env == 'development':
