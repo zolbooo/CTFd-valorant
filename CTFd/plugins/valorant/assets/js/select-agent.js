@@ -27,6 +27,24 @@ function disableAgent(agent) {
 
 const artwork = document.getElementById('artwork');
 const submitButton = document.getElementById('submit');
+
+const agentSelections = new Map();
+function handleSelection(agent) {
+	const selectionCount = agentSelections.get(agent);
+	if (!agentSelections.has(agent)) {
+		agentSelections.set(agent, 1);
+	} else {
+		agentSelections.set(agent, selectionCount + 1);
+	}
+
+	if (selectionCount >= 1) {
+		disableAgent(agent);
+		if (getSelectedAgent() === agent) {
+			setSelectedAgent(null);
+		}
+	}
+}
+
 function hydrate() {
 	document.body.addEventListener('click', (e) => {
 		if (e.target !== e.currentTarget) {
@@ -46,17 +64,13 @@ function hydrate() {
 	});
 
 	const chosenAgents = JSON.parse(document.getElementById('chosen_agents').textContent);
-	chosenAgents.forEach(disableAgent);
+	chosenAgents.forEach(handleSelection);
 }
 
 const eventSource = new EventSource('/events');
 eventSource.addEventListener('agent-selected', (message) => {
 	const {agent} = JSON.parse(message.data);
-
-	disableAgent(agent);
-	if (getSelectedAgent() === agent) {
-		setSelectedAgent(null);
-	}
+	handleSelection(agent);
 });
 function submit() {
 	const input = document.querySelector('input[name="agent"]');
