@@ -83,6 +83,20 @@ OAUTH_CLIENT_ID = None
 OAUTH_CLIENT_SECRET = None
 ```
 
+## Valorant plugin
+
+This fork has a Valorant plugin for agent select for every team and an integrated scoreboard with sound effects. To set plugin up use following steps:
+
+1. Generate webhook secret: `openssl rand -hex 32`
+2. In `docker-compose.yml`, set `WEBHOOK_SECRET` env variable of `scoreboard-server` service and `VALORANT_WEBHOOK_SECRET` env variable of `ctfd` to the generated value.
+3. Run `docker compose up` and connect to CTFd instance, it exposes port `8000` on the host by default.
+4. Set up CTFd instance and create an access token.
+5. Save access token in `CTFD_API_KEY` env variable of `scoreboard` service in `docker-compose.yml`
+6. Generate TLS certificates for scoreboard and its backend, we recommend to use Let's Encrypt.
+7. Save generated certificates in `conf/letsencrypt` directory.
+8. Configure nginx (`conf/nginx/http.conf`) to serve TLS traffic on domain of your preference.
+9. Run `docker compose up`
+
 ## Credits
 
 - Logo by [Laura Barbera](http://www.laurabb.com/)
