@@ -50,20 +50,18 @@ export async function getSoundManifest(): Promise<SoundsManifest> {
         ]);
 
         // Interaction sounds are in format "<agent>-<id>.mp3"
-        const interactions = agents
-          .filter((agent) => agent !== agentId)
-          .map((interactionAgent) => {
-            const sounds = interactionSounds.filter((filename) =>
-              filename.startsWith(`${interactionAgent}-`)
-            );
-            return [
-              interactionAgent,
-              {
-                regular: countRegularSounds(sounds),
-                special: countSpecialSounds(sounds),
-              },
-            ];
-          });
+        const interactions = agents.map((interactionAgent) => {
+          const sounds = interactionSounds.filter((filename) =>
+            filename.startsWith(`${interactionAgent}-`)
+          );
+          return [
+            interactionAgent,
+            {
+              regular: countRegularSounds(sounds),
+              special: countSpecialSounds(sounds),
+            },
+          ];
+        });
         return [
           agentId,
           {
