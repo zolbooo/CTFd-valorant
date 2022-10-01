@@ -56,7 +56,7 @@ export function pickSound({
   const oldTeamStandingIndex = oldScoreboard.findIndex(
     (standing) => standing.name === team
   );
-  if (oldTeamStandingIndex !== 0 && teamStandingIndex === 0) {
+  if (oldTeamStandingIndex >= 3 && teamStandingIndex < 3) {
     const sound = pickSoundFromManifest(soundManifest[agent].lead);
     return {
       id: `${agent}/lead/${sound.id}`,
