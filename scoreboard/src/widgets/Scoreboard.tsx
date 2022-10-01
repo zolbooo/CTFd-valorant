@@ -1,5 +1,6 @@
 import Image from "next/image";
 import classNames from "classnames";
+import { MouseEvent } from "react";
 
 import { ScoreboardItem } from "@/server/scoreboard";
 import { SoundsManifest } from "@/server/sounds";
@@ -32,10 +33,19 @@ export function ScoreboardWidget({
     agentPicks,
     initialScoreboard,
   });
+
+  const requestFullscreen = (event: MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      document.body.requestFullscreen().catch(() => {});
+    }
+  };
   return (
     <div className="w-screen h-screen bg-icebox bg-cover backdrop-blur-xl">
       <div className="w-full h-full bg-white/5 backdrop-blur-sm">
-        <div className="w-full h-full flex justify-center overflow-scroll">
+        <div
+          className="w-full h-full flex justify-center overflow-scroll"
+          onClick={requestFullscreen}
+        >
           <div className="w-3/4">
             <div className="w-full h-8 grid grid-flow-row-dense grid-cols-5 my-2">
               <div className="h-full col-span-2 text-white bg-gray-100 bg-opacity-20 flex justify-center items-center">
