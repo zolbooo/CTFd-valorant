@@ -17,26 +17,15 @@ export function PickStageWidget({
   return (
     <div className="w-screen h-screen bg-valorant bg-cover backdrop-blur-xl">
       <div className="w-full h-full bg-white/5 backdrop-blur-sm">
-        <div className="p-5 h-full flex flex-row justify-between items-center">
-          <div className="flex flex-col flex-1 gap-2">
-            {teams.slice(0, 4).map((team) => (
-              <AgentPick
-                key={team.name}
-                team={team}
-                agent={agentPicks[team.name] ?? null}
-              />
-            ))}
-          </div>
-          <div className="flex flex-col flex-1 gap-2">
-            {teams.slice(4).map((team) => (
-              <AgentPick
-                layout="rtl"
-                key={team.name}
-                team={team}
-                agent={agentPicks[team.name] ?? null}
-              />
-            ))}
-          </div>
+        <div className="p-5 h-full flex flex-row flex-wrap justify-between items-center">
+          {teams.map((team) => (
+            <AgentPick
+              layout="rtl"
+              key={team.name}
+              team={team}
+              agent={agentPicks[team.name] ?? null}
+            />
+          ))}
         </div>
       </div>
     </div>
