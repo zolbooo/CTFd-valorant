@@ -61,50 +61,71 @@ export function ScoreboardWidget({
                 <p>DEATHS</p>
               </div>
             </div>
-            {scoreboard.map((team, index) => (
-              <div
-                key={team.name}
-                className={classNames(
-                  "w-full h-16 mt-[2px] bg-opacity-60 grid grid-flow-row-dense grid-cols-5 items-center",
-                  index % 2 === 0 ? "bg-cyan-300" : "bg-rose-500"
-                )}
-              >
-                <div className="h-full flex flex-row items-center col-span-2">
-                  <div className="w-16">
-                    {agentPicks[team.name] && (
-                      <Image
-                        width="100%"
-                        height="100%"
-                        layout="responsive"
-                        objectFit="contain"
-                        className="opacity-100"
-                        src={`/assets/agents/${agentPicks[team.name]}/icon.png`}
-                        alt={`${agentPicks[team.name]} icon`}
-                      />
-                    )}
+            {scoreboard.map((team, index) => {
+              const textColor =
+                index % 2 === 0 ? "text-zinc-600" : "text-white";
+              return (
+                <div
+                  key={team.name}
+                  className={classNames(
+                    "w-full h-16 mt-[2px] bg-opacity-60 grid grid-flow-row-dense grid-cols-5 items-center",
+                    index % 2 === 0 ? "bg-cyan-300" : "bg-rose-500"
+                  )}
+                >
+                  <div className="h-full flex flex-row items-center col-span-2">
+                    <div className="w-16">
+                      {agentPicks[team.name] && (
+                        <Image
+                          width="100%"
+                          height="100%"
+                          layout="responsive"
+                          objectFit="contain"
+                          className="opacity-100"
+                          src={`/assets/agents/${
+                            agentPicks[team.name]
+                          }/icon.png`}
+                          alt={`${agentPicks[team.name]} icon`}
+                        />
+                      )}
+                    </div>
+                    <p className={classNames("px-8 font-bold", textColor)}>
+                      {agentPicks[team.name]
+                        ? `${team.name} - ${
+                            agentData[
+                              agentPicks[team.name] as keyof typeof agentData
+                            ].name
+                          }`
+                        : team.name}
+                    </p>
                   </div>
-                  <p className="px-8 text-white font-bold">
-                    {agentPicks[team.name]
-                      ? `${team.name} - ${
-                          agentData[
-                            agentPicks[team.name] as keyof typeof agentData
-                          ].name
-                        }`
-                      : team.name}
+                  <p
+                    className={classNames(
+                      "opacity-100 text-center font-bold",
+                      textColor
+                    )}
+                  >
+                    {scoreboard.find((listing) => listing.name === team.name)
+                      ?.score ?? 0}
+                  </p>
+                  <p
+                    className={classNames(
+                      "opacity-100 text-center font-bold",
+                      textColor
+                    )}
+                  >
+                    {team.solves.toString().padStart(2, "0")}
+                  </p>
+                  <p
+                    className={classNames(
+                      "opacity-100 text-center font-bold",
+                      textColor
+                    )}
+                  >
+                    {team.fails.toString().padStart(2, "0")}
                   </p>
                 </div>
-                <p className="text-white opacity-100 text-center font-bold">
-                  {scoreboard.find((listing) => listing.name === team.name)
-                    ?.score ?? 0}
-                </p>
-                <p className="text-white opacity-100 text-center font-bold">
-                  {team.solves.toString().padStart(2, "0")}
-                </p>
-                <p className="text-white opacity-100 text-center font-bold">
-                  {team.fails.toString().padStart(2, "0")}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
